@@ -57,9 +57,12 @@ function loveResult(index) {
 // ===== BOT LOGIC =====
 
 bot.onText(/\/stats/, (msg) => {
-  if (msg.chat.id === adminId) {
-    bot.sendMessage(msg.chat.id, `📊 လက်ရှိ Bot ကို အသုံးပြုထားသူ စုစုပေါင်း: ${allUserIds.size} ယောက် ရှိပါတယ်ခင်ဗျာ။`);
-  }
+  const chatId = msg.chat.id;
+  if (chatId === adminId) {
+    const count = allUserIds.size;
+    bot.sendMessage(,chatId, `📊 လက်ရှိ Bot ကို အသုံးပြုထားသူ စုစုပေါင်း: ${allUserIds.size} ယောက် ရှိပါတယ်ခင်ဗျာ။`);
+  } else {
+    console.log(`Unauthorized access attempt by: ${chatId}`);
 });
 
 bot.onText(/\/start/, (msg) => {
@@ -71,11 +74,11 @@ bot.onText(/\/start/, (msg) => {
 
 bot.on('message', (msg) => {
   const chatId = msg.chat.id;
-  allUserIds.add(chatId); // User အသစ်ဝင်လာတိုင်း စာရင်းထဲပေါင်းထည့်မယ်
   const text = msg.text;
 
   if (!users[chatId] || text === '/start') return;
-
+  allUserIds.add(chatId); // User အသစ်ဝင်လာတိုင်း စာရင်းထဲပေါင်းထည့်မယ်
+  
   // STEP 1: DOB
   if (users[chatId].step === 1) {
     users[chatId].dob = text;
@@ -121,6 +124,7 @@ bot.on('message', (msg) => {
 });
 
 console.log("Bot is starting successfully...");
+
 
 
 
