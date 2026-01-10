@@ -1,28 +1,25 @@
 const TelegramBot = require('node-telegram-bot-api');
 const http = require('http');
 
-// 1. Render အတွက် Port ဖွင့်ပေးခြင်း (ဒါပါမှ ၂၄ နာရီ Run မှာပါ)
+// 1. Render Port Binding (ဒါပါမှ Live ဖြစ်မှာပါ)
 const port = process.env.PORT || 3000;
 http.createServer((req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/plain' });
   res.end('Bot is running!');
 }).listen(port);
 
-// 2. Token ကို Environment Variable မှ ယူခြင်း
-const token = process.env.BOT_TOKEN;
+// 2. Bot Setup (Token ကို Environment Variable မှ ယူပါသည်)
+const token = process.env.BOT_TOKEN || '8040160587:AAFOOF955wdafPXk-QFD4ApwVjhWKCQuS-0';
 const bot = new TelegramBot(token, { polling: true });
 const users = {};
 
 // ===== ALGORITHMS =====
 
 function getLifeIndex(dob) {
-  const parts = dob.split('/');
-  if (parts.length < 3) return 5;
-  const d = parseInt(parts[0]);
-  const m = parseInt(parts[1]);
-  const y = parseInt(parts[2]);
+  const parts = dob.split('/').map(Number);
+  if (parts.length < 3) return 0;
+  const [d, m, y] = parts;
   const today = new Date();
-
   const sum = d + m + y + today.getDate() + (today.getMonth() + 1) + today.getFullYear();
   return sum % 10;
 }
@@ -55,7 +52,7 @@ function loveResult(index) {
   return '❤️ အချစ်ရေးမတည်ငြိမ် — အရေးကြီးဆုံးက စိတ်ရှည်ခြင်း။';
 }
 
-// --- Bot Commands ---
+// ===== BOT LOGIC =====
 
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
@@ -86,7 +83,8 @@ bot.on('message', (msg) => {
   if (users[chatId].step === 2) {
     users[chatId].day = text;
     users[chatId].step = 3;
-    bot.sendMessage(chatId, 'ဘာအကြောင်း သိချင်ပါသလဲ?', {
+    bot.sendMessage(chatId, chatId, {
+      text: 'ဘာအကြောင်း သိချင်ပါသလဲ?',
       reply_markup: {
         keyboard: [['💰 ငွေကြေး'], ['💼 အလုပ်အကိုင်'], ['📚 စာမေးပွဲ'], ['❤️ အချစ်ရေး']],
         resize_keyboard: true, one_time_keyboard: true
@@ -95,20 +93,19 @@ bot.on('message', (msg) => {
     return;
   }
 
-  // STEP 3: Topic
+  // STEP 3: Topic & Final Result
   if (users[chatId].step === 3) {
-    let reply = '';
     const index = getLifeIndex(users[chatId].dob);
+    let result = '';
 
-    if (text.includes('ငွေ')) reply = moneyResult(index);
-    else if (text.includes('အလုပ်')) reply = jobResult(index);
-    else if (text.includes('စာ')) reply = examResult(index);
-    else if (text.includes('အချစ်')) reply = loveResult(index);
-    else reply = 'မေးခွန်းကို ပြန်ရွေးပေးပါ 🙏';
+    if (text.includes('ငွေ')) result = moneyResult(index);
+    else if (text.includes('အလုပ်')) result = jobResult(index);
+    else if (text.includes('စာ')) result = examResult(index);
+    else if (text.includes('အချစ်')) result = loveResult(index);
+    else result = 'မေးခွန်းကို ပြန်ရွေးပေးပါ 🙏';
 
-    reply += \n\n🔢 Life Index: ${index};
-
-    bot.sendMessage(chatId, reply, { reply_markup: { remove_keyboard: true } });
+    const finalReply = ${result}\n\n🔢 Life Index: ${index};
+    bot.sendMessage(chatId, finalReply, { reply_markup: { remove_keyboard: true } });
     users[chatId].step = 0;
   }
 });
