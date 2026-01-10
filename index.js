@@ -1,35 +1,29 @@
-const { Telegraf } = require('telegraf');
+const TelegramBot = require('node-telegram-bot-api');
 const http = require('http');
 
-// Render အတွက် Port ဖွင့်ခြင်း
+// 1. Render အတွက် Port ဖွင့်ပေးခြင်း (ဒါပါမှ ၂၄ နာရီ Run မှာပါ)
 const port = process.env.PORT || 3000;
 http.createServer((req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/plain' });
   res.end('Bot is running!');
 }).listen(port);
 
-// Bot ဆောက်ခြင်း (Environment Variable ထဲက Token ကို ယူသုံးမည်)
-const bot = new Telegraf(process.env.BOT_TOKEN);
-
-//bot.start((ctx) => ctx.reply('မင်္ဂလာပါ! ဗေဒင် Bot စတင်အလုပ်လုပ်နေပါပြီ။'));
-
-const TelegramBot = require('node-telegram-bot-api');
-const token = '8040160587:AAFOOF955wdafPXk-QFD4ApwVjhWKCQuS-0';
+// 2. Token ကို Environment Variable မှ ယူခြင်း
+const token = process.env.BOT_TOKEN;
+const bot = new TelegramBot(token, { polling: true });
+const users = {};
 
 // ===== ALGORITHMS =====
 
 function getLifeIndex(dob) {
-  const [d, m, y] = dob.split('/').map(Number);
+  const parts = dob.split('/');
+  if (parts.length < 3) return 5;
+  const d = parseInt(parts[0]);
+  const m = parseInt(parts[1]);
+  const y = parseInt(parts[2]);
   const today = new Date();
 
-  const sum =
-    d +
-    m +
-    y +
-    today.getDate() +
-    (today.getMonth() + 1) +
-    today.getFullYear();
-
+  const sum = d + m + y + today.getDate() + (today.getMonth() + 1) + today.getFullYear();
   return sum % 10;
 }
 
@@ -54,7 +48,6 @@ function examResult(index) {
   return '📚 မသေချာ — အရေးကြီးမေးခွန်းလွတ်နိုင်။';
 }
 
-// ❤️ အချစ်ရေး Algorithm (NEW)
 function loveResult(index) {
   if (index >= 8) return '❤️ အချစ်ရေးကောင်းမွန် — နားလည်မှုတိုးတက်။';
   if (index >= 5) return '❤️ အချစ်ရေးတည်ငြိမ် — စကားပြောဆိုမှုက အဓိက။';
@@ -62,26 +55,12 @@ function loveResult(index) {
   return '❤️ အချစ်ရေးမတည်ငြိမ် — အရေးကြီးဆုံးက စိတ်ရှည်ခြင်း။';
 }
 
-function getLuckyNumber(dob) {
-  const parts = dob.split('/');
-  const day = parseInt(parts[0]);
-  const month = parseInt(parts[1]);
-  const year = parseInt(parts[2]);
-
-  const sum = day + month + year;
-  return sum % 9 || 9;
-}
-
-const users = {};
+// --- Bot Commands ---
 
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
   users[chatId] = { step: 1 };
-
-  bot.sendMessage(
-    chatId,
-    'မင်္ဂလာပါ 🙏\n Astro By Sayar Ye Botမှ ကြိုဆိုပါတယ်\nမွေးသက္ကရာဇ်ကို 01/01/2000 ပုံစံနဲ့ ထည့်ပါ'
-  );
+  bot.sendMessage(chatId, 'မင်္ဂလာပါ 🙏\nAstro By Sayar Ye Bot မှ ကြိုဆိုပါတယ်\nမွေးသက္ကရာဇ်ကို 01/01/2000 ပုံစံနဲ့ ထည့်ပါ');
 });
 
 bot.on('message', (msg) => {
@@ -94,15 +73,10 @@ bot.on('message', (msg) => {
   if (users[chatId].step === 1) {
     users[chatId].dob = text;
     users[chatId].step = 2;
-
     bot.sendMessage(chatId, 'ဘာနေ့သား/သမီး ဖြစ်ပါသလဲ?', {
       reply_markup: {
-        keyboard: [
-          ['တနင်္လာ', 'အင်္ဂါ', 'ဗုဒ္ဓဟူး'],
-          ['ကြာသပတေး', 'သောကြာ', 'စနေ', 'တနင်္ဂနွေ']
-        ],
-        resize_keyboard: true,
-        one_time_keyboard: true
+        keyboard: [['တနင်္လာ', 'အင်္ဂါ', 'ဗုဒ္ဓဟူး'], ['ကြာသပတေး', 'သောကြာ', 'စနေ', 'တနင်္ဂနွေ']],
+        resize_keyboard: true, one_time_keyboard: true
       }
     });
     return;
@@ -112,17 +86,10 @@ bot.on('message', (msg) => {
   if (users[chatId].step === 2) {
     users[chatId].day = text;
     users[chatId].step = 3;
-
     bot.sendMessage(chatId, 'ဘာအကြောင်း သိချင်ပါသလဲ?', {
       reply_markup: {
-        keyboard: [
-          ['💰 ငွေကြေး'],
-          ['💼 အလုပ်အကိုင်'],
-	  ['📚 စာမေးပွဲ'],
-          ['❤️ အချစ်ရေး']
-        ],
-        resize_keyboard: true,
-        one_time_keyboard: true
+        keyboard: [['💰 ငွေကြေး'], ['💼 အလုပ်အကိုင်'], ['📚 စာမေးပွဲ'], ['❤️ အချစ်ရေး']],
+        resize_keyboard: true, one_time_keyboard: true
       }
     });
     return;
@@ -130,39 +97,20 @@ bot.on('message', (msg) => {
 
   // STEP 3: Topic
   if (users[chatId].step === 3) {
-  let reply = '';
-  const index = getLifeIndex(users[chatId].dob);
+    let reply = '';
+    const index = getLifeIndex(users[chatId].dob);
 
-  if (text.includes('ငွေ')) {
-    reply = moneyResult(index);
-  } else if (text.includes('အလုပ်')) {
-    reply = jobResult(index);
-  } else if (text.includes('စာ')) {
-    reply = examResult(index);
-  } else if (text.includes('အချစ်')) {
-    reply = loveResult(index);
-  } else {
-    reply = 'မေးခွန်းကို ပြန်ရွေးပေးပါ 🙏';
+    if (text.includes('ငွေ')) reply = moneyResult(index);
+    else if (text.includes('အလုပ်')) reply = jobResult(index);
+    else if (text.includes('စာ')) reply = examResult(index);
+    else if (text.includes('အချစ်')) reply = loveResult(index);
+    else reply = 'မေးခွန်းကို ပြန်ရွေးပေးပါ 🙏';
+
+    reply += \n\n🔢 Life Index: ${index};
+
+    bot.sendMessage(chatId, reply, { reply_markup: { remove_keyboard: true } });
+    users[chatId].step = 0;
   }
-
-  reply += `\n\n🔢 Life Index: ${index}`;
-
-  bot.sendMessage(chatId, reply, {
-    reply_markup: { remove_keyboard: true }
-  });
-
-  users[chatId].step = 0;
-}
 });
 
-bot.on('text', (ctx) => {
-  const userMsg = ctx.message.text;
-  ctx.reply(`သင်ပြောလိုက်တာကတော့ - ${userMsg}`);
-});
-
-bot.launch();
-
-console.log("Bot is successfully started...");
-
-
-
+console.log("Bot is starting successfully...");
