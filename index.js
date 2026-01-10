@@ -64,6 +64,7 @@ bot.onText(/\/stats/, (msg) => {
 
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
+  allUserIds.add(chatId); // <--- 
   users[chatId] = { step: 1 };
   bot.sendMessage(chatId, 'မင်္ဂလာပါ 🙏\nAstro By Sayar Ye Bot မှ ကြိုဆိုပါတယ်\nမွေးသက္ကရာဇ်ကို 01/01/2000 ပုံစံနဲ့ ထည့်ပါ');
 });
@@ -120,6 +121,7 @@ bot.on('message', (msg) => {
 });
 
 console.log("Bot is starting successfully...");
+
 
 
 
