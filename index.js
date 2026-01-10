@@ -12,6 +12,8 @@ http.createServer((req, res) => {
 const token = process.env.BOT_TOKEN || '8040160587:AAFOOF955wdafPXk-QFD4ApwVjhWKCQuS-0';
 const bot = new TelegramBot(token, { polling: true });
 const users = {};
+const allUserIds = new Set(); // User ID အားလုံးကို မှတ်ရန်
+const adminId = 6754962387;  // ဆရာကြီးရဲ့ ID
 
 // ===== ALGORITHMS =====
 
@@ -54,6 +56,12 @@ function loveResult(index) {
 
 // ===== BOT LOGIC =====
 
+bot.onText(/\/stats/, (msg) => {
+  if (msg.chat.id === adminId) {
+    bot.sendMessage(msg.chat.id, 📊 လက်ရှိ Bot ကို အသုံးပြုထားသူ စုစုပေါင်း: ${allUserIds.size} ယောက် ရှိပါတယ်ခင်ဗျာ။);
+  }
+});
+
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
   users[chatId] = { step: 1 };
@@ -62,6 +70,7 @@ bot.onText(/\/start/, (msg) => {
 
 bot.on('message', (msg) => {
   const chatId = msg.chat.id;
+  allUserIds.add(chatId); // User အသစ်ဝင်လာတိုင်း စာရင်းထဲပေါင်းထည့်မယ်
   const text = msg.text;
 
   if (!users[chatId] || text === '/start') return;
@@ -111,4 +120,5 @@ bot.on('message', (msg) => {
 });
 
 console.log("Bot is starting successfully...");
+
 
