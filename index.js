@@ -15,9 +15,10 @@ bot.start((ctx) => ctx.reply('မင်္ဂလာပါ! ဗေဒင် Bot �
 
 bot.on('text', (ctx) => {
   const userMsg = ctx.message.text;
-  ctx.reply(သင်ပြောလိုက်တာကတော့ - ${userMsg});
+  ctx.reply(`သင်ပြောလိုက်တာကတော့ - ${userMsg}`);
 });
 
 bot.launch();
 
 console.log("Bot is successfully started...");
+
