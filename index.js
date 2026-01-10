@@ -1,3 +1,11 @@
+const http = require('http');
+const port = process.env.PORT || 3000;
+http.createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('Bot is running!\n');
+}).listen(port, () => {
+    console.log(Server is running on port ${port}`);
+    });
 const { Telegraf } = require('telegraf');
 const { DateTime } = require('luxon');
 
@@ -69,5 +77,6 @@ bot.command('predict', (ctx) => {
 
     ctx.reply(res);
 });
+
 
 bot.launch().then(() => console.log("✅ Bot is running successfully!"));
