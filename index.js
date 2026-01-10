@@ -1,20 +1,23 @@
 const { Telegraf } = require('telegraf');
 const http = require('http');
 
-// 1. Render အတွက် Web Server အပိုင်း
+// Render အတွက် Port ဖွင့်ခြင်း
 const port = process.env.PORT || 3000;
 http.createServer((req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.end('Bot is alive!');
+  res.end('Bot is running!');
 }).listen(port);
 
-// 2. Bot အပိုင်း (Token ကို Environment Variable ကနေ ယူမယ်)
+// Bot ဆောက်ခြင်း (Environment Variable ထဲက Token ကို ယူသုံးမည်)
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
-bot.start((ctx) => ctx.reply('Welcome! Your bot is running 24/7 on Render.'));
-bot.help((ctx) => ctx.reply('Send me a message!'));
-bot.on('text', (ctx) => ctx.reply(You said: ${ctx.message.text}));
+bot.start((ctx) => ctx.reply('မင်္ဂလာပါ! ဗေဒင် Bot စတင်အလုပ်လုပ်နေပါပြီ။'));
+
+bot.on('text', (ctx) => {
+  const userMsg = ctx.message.text;
+  ctx.reply(သင်ပြောလိုက်တာကတော့ - ${userMsg});
+});
 
 bot.launch();
 
-console.log("Bot is starting...");
+console.log("Bot is successfully started...");
