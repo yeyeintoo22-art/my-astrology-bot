@@ -72,7 +72,6 @@ function getLuckyNumber(dob) {
   return sum % 9 || 9;
 }
 
-const bot = new TelegramBot(token, { polling: true });
 const users = {};
 
 bot.onText(/\/start/, (msg) => {
@@ -164,5 +163,6 @@ bot.on('text', (ctx) => {
 bot.launch();
 
 console.log("Bot is successfully started...");
+
 
 
