@@ -58,7 +58,7 @@ function loveResult(index) {
 
 bot.onText(/\/stats/, (msg) => {
   if (msg.chat.id === adminId) {
-    bot.sendMessage(msg.chat.id, 📊 လက်ရှိ Bot ကို အသုံးပြုထားသူ စုစုပေါင်း: ${allUserIds.size} ယောက် ရှိပါတယ်ခင်ဗျာ။);
+    bot.sendMessage(msg.chat.id, `📊 လက်ရှိ Bot ကို အသုံးပြုထားသူ စုစုပေါင်း: ${allUserIds.size} ယောက် ရှိပါတယ်ခင်ဗျာ။`);
   }
 });
 
@@ -120,5 +120,6 @@ bot.on('message', (msg) => {
 });
 
 console.log("Bot is starting successfully...");
+
 
 
