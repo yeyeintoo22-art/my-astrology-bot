@@ -63,6 +63,7 @@ bot.onText(/\/stats/, (msg) => {
     bot.sendMessage(chatId, `📊 လက်ရှိ Bot ကို အသုံးပြုထားသူ စုစုပေါင်း: ${allUserIds.size} ယောက် ရှိပါတယ်ခင်ဗျာ။`);
   } else {
     console.log(`Unauthorized access attempt by: ${chatId}`);
+  }
 });
 
 bot.onText(/\/start/, (msg) => {
@@ -124,6 +125,7 @@ bot.on('message', (msg) => {
 });
 
 console.log("Bot is starting successfully...");
+
 
 
 
