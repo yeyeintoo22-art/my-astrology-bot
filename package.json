@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
-    //"test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
@@ -13,7 +12,5 @@
   "type": "commonjs",
   "dependencies": {
     "node-telegram-bot-api": "^0.61.0"
-    //"luxon": "^3.7.2",
-    //"telegraf": "^4.16.3"
   }
 }
