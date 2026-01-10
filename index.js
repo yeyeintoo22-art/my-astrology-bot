@@ -6,6 +6,7 @@ http.createServer((req, res) => {
 }).listen(port, () => {
     console.log(Server is running on port ${port}`);
     });
+    
 const { Telegraf } = require('telegraf');
 const { DateTime } = require('luxon');
 
@@ -80,3 +81,4 @@ bot.command('predict', (ctx) => {
 
 
 bot.launch().then(() => console.log("✅ Bot is running successfully!"));
+
