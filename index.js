@@ -118,13 +118,14 @@ bot.on('message', (msg) => {
     else if (text.includes('အချစ်')) result = loveResult(index);
     else result = 'မေးခွန်းကို ပြန်ရွေးပေးပါ 🙏';
 
-    const finalReply = `${result}\n\n🔢 Life Index: ${index}`;
+    const finalReply = `${result}\n\n🔢 Life Index: ${index}\n\n'ပိုမိုသိရှိလိုပါက ဤနေရာ https://t.me/AstroBySayarYe မှ ဝင်ရောက်လေ့လာနိုင်ပါသည်'`;
     bot.sendMessage(chatId, finalReply, { reply_markup: { remove_keyboard: true } });
     users[chatId].step = 0;
   }
 });
 
 console.log("Bot is starting successfully...");
+
 
 
 
