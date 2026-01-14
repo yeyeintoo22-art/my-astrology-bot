@@ -58,7 +58,7 @@ function loveResult(index) {
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
   allUserIds.add(chatId); // <--- 
-  //users[chatId] = { step: 1 };
+  users[chatId] = { step: 1 };
   if (chatId === adminId) {
     const count = allUserIds.size;
     bot.sendMessage(chatId, `📊 လက်ရှိ Bot ကို အသုံးပြုထားသူ စုစုပေါင်း: ${allUserIds.size} ယောက် ရှိပါတယ်ခင်ဗျာ။`);
