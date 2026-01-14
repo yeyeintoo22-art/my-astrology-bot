@@ -9,7 +9,7 @@ http.createServer((req, res) => {
 }).listen(port);
 
 // 2. Bot Setup
-const token = process.env.BOT_TOKEN || '8040160587:AAFOOF955wdafPXk-QFD4ApwVjhWKCQuS-0';
+const token = process.env.BOT_TOKEN || '8302313856:AAHqMZy-uBpE2VkKMxeD2dhtU7NkWlidjt0';
 const bot = new TelegramBot(token, { polling: true });
 
 const users = {};
@@ -118,6 +118,7 @@ bot.on('message', (msg) => {
 });
 
 console.log("Bot is starting successfully...");
+
 
 
 
