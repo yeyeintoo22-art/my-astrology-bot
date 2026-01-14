@@ -73,7 +73,7 @@ bot.on('message', (msg) => {
   const chatId = msg.chat.id;
   const text = msg.text;
 
-  if (!text  text === '/start'  !users[chatId]) return;
+  if (!text || text === '/start' || !users[chatId]) return;
 
   // STEP 1: DOB
   if (users[chatId].step === 1) {
@@ -118,5 +118,6 @@ bot.on('message', (msg) => {
 });
 
 console.log("Bot is starting successfully...");
+
 
 
