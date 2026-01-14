@@ -61,7 +61,7 @@ bot.onText(/\/start/, (msg) => {
   users[chatId] = { step: 1 };
   if (chatId === adminId) {
     const count = allUserIds.size;
-    bot.sendMessage(chatId, `📊 လက်ရှိ Bot ကို အသုံးပြုထားသူ စုစုပေါင်း: ${allUserIds.size} ယောက် ရှိပါတယ်ခင်ဗျာ။`);
+    bot.sendMessage(chatId, '📊 လက်ရှိ Bot ကို အသုံးပြုထားသူ စုစုပေါင်း: ${allUserIds.size} ယောက် ရှိပါတယ်ခင်ဗျာ။');
   } else {
     console.log(`Unauthorized access attempt by: ${chatId}`);
   }
@@ -124,6 +124,7 @@ bot.on('message', (msg) => {
 });
 
 console.log("Bot is starting successfully...");
+
 
 
 
