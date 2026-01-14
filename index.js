@@ -107,16 +107,17 @@ bot.onText(/\/start/, (msg) => {
     else result = 'မေးခွန်းကို ပြန်ရွေးပေးပါ 🙏';
 
     const finalReply = `${result}\n\n🔢 Life Index: ${index}
-    \n\n'ပိုမိုသိရှိလိုပါက ဤနေရာ https://t.me/AstroBySayarYe မှ ဝင်ရောက်လေ့လာနိုင်ပါသည်'
-    \n\n'System မှ ဝင်လာတတ်သော ကြော်ငြာများကိုလည်း မဝင်ရောက်မိရန်သတိထားပါ'
-    \n\n'အသုံးပြုမှုအတွက် ကျေးဇူးတင်ပါသည်🙏'
-    \n\n'ထပ်မံအသုံးပြုရန် /start ကိုနှိပ်ပါ'`;
+    \n\nပိုမိုသိရှိလိုပါက ဤနေရာ https://t.me/AstroBySayarYe မှ ဝင်ရောက်လေ့လာနိုင်ပါသည်
+    \n\nSystem မှ ဝင်လာတတ်သော ကြော်ငြာများကိုလည်း မဝင်ရောက်မိရန်သတိထားပါ
+    \n\nအသုံးပြုမှုအတွက် ကျေးဇူးတင်ပါသည်🙏
+    \n\nထပ်မံအသုံးပြုရန် /start ကိုနှိပ်ပါ`;
     bot.sendMessage(chatId, finalReply, { reply_markup: { remove_keyboard: true } });
     users[chatId].step = 0;
   }
 });
 
 console.log("Bot is starting successfully...");
+
 
 
 
