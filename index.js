@@ -59,6 +59,8 @@ bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
   allUserIds.add(chatId); // <--- 
   users[chatId] = { step: 1 };
+  if (!users[chatId] || text === '/start') return;
+  allUserIds.add(chatId); // User အသစ်ဝင်လာတိုင်း စာရင်းထဲပေါင်းထည့်မယ်
   if (chatId === adminId) {
     const count = allUserIds.size;
     bot.sendMessage(chatId, '📊 လက်ရှိ Bot ကို အသုံးပြုထားသူ စုစုပေါင်း: ${allUserIds.size} ယောက် ရှိပါတယ်ခင်ဗျာ။');
@@ -71,9 +73,6 @@ bot.onText(/\/start/, (msg) => {
 bot.on('message', (msg) => {
   const chatId = msg.chat.id;
   const text = msg.text;
-
-  if (!users[chatId] || text === '/start') return;
-  allUserIds.add(chatId); // User အသစ်ဝင်လာတိုင်း စာရင်းထဲပေါင်းထည့်မယ်
   
   // STEP 1: DOB
   if (users[chatId].step === 1) {
@@ -124,6 +123,7 @@ bot.on('message', (msg) => {
 });
 
 console.log("Bot is starting successfully...");
+
 
 
 
