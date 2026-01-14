@@ -114,9 +114,8 @@ bot.onText(/\/start/, (msg) => {
     bot.sendMessage(chatId, finalReply, { reply_markup: { remove_keyboard: true } });
     users[chatId].step = 0;
   }
-});
-
 console.log("Bot is starting successfully...");
+
 
 
 
