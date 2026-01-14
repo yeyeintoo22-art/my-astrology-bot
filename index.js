@@ -58,21 +58,15 @@ function loveResult(index) {
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
   allUserIds.add(chatId); // <--- 
-  users[chatId] = { step: 1 };
+  //users[chatId] = { step: 1 };
   if (chatId === adminId) {
     const count = allUserIds.size;
-    bot.sendMessage(chatId, '📊 လက်ရှိ Bot ကို အသုံးပြုထားသူ စုစုပေါင်း: ${allUserIds.size} ယောက် ရှိပါတယ်ခင်ဗျာ။');
+    bot.sendMessage(chatId, `📊 လက်ရှိ Bot ကို အသုံးပြုထားသူ စုစုပေါင်း: ${allUserIds.size} ယောက် ရှိပါတယ်ခင်ဗျာ။`);
   } else {
     console.log(`Unauthorized access attempt by: ${chatId}`);
   }
   bot.sendMessage(chatId, 'မင်္ဂလာပါ 🙏\nAstro By Sayar Ye Bot မှ ကြိုဆိုပါတယ်\nမွေးသက္ကရာဇ်ကို 01/01/2000 ပုံစံနဲ့ ထည့်ပါ');
 });
-
-bot.on('message', (msg) => {
-  const chatId = msg.chat.id;
-  const text = msg.text;
-   if (!users[chatId] || text === '/start') return;
-  allUserIds.add(chatId); // User အသစ်ဝင်လာတိုင်း စာရင်းထဲပေါင်းထည့်မယ်
   
   // STEP 1: DOB
   if (users[chatId].step === 1) {
@@ -123,6 +117,7 @@ bot.on('message', (msg) => {
 });
 
 console.log("Bot is starting successfully...");
+
 
 
 
