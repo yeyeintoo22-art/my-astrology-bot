@@ -55,21 +55,16 @@ function loveResult(index) {
 }
 
 // ===== BOT LOGIC =====
-
-bot.onText(/\/stats/, (msg) => {
+bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
+  allUserIds.add(chatId); // <--- 
+  users[chatId] = { step: 1 };
   if (chatId === adminId) {
     const count = allUserIds.size;
     bot.sendMessage(chatId, `📊 လက်ရှိ Bot ကို အသုံးပြုထားသူ စုစုပေါင်း: ${allUserIds.size} ယောက် ရှိပါတယ်ခင်ဗျာ။`);
   } else {
     console.log(`Unauthorized access attempt by: ${chatId}`);
   }
-});
-
-bot.onText(/\/start/, (msg) => {
-  const chatId = msg.chat.id;
-  allUserIds.add(chatId); // <--- 
-  users[chatId] = { step: 1 };
   bot.sendMessage(chatId, 'မင်္ဂလာပါ 🙏\nAstro By Sayar Ye Bot မှ ကြိုဆိုပါတယ်\nမွေးသက္ကရာဇ်ကို 01/01/2000 ပုံစံနဲ့ ထည့်ပါ');
 });
 
@@ -118,13 +113,18 @@ bot.on('message', (msg) => {
     else if (text.includes('အချစ်')) result = loveResult(index);
     else result = 'မေးခွန်းကို ပြန်ရွေးပေးပါ 🙏';
 
-    const finalReply = `${result}\n\n🔢 Life Index: ${index}\n\n'ပိုမိုသိရှိလိုပါက ဤနေရာ https://t.me/AstroBySayarYe မှ ဝင်ရောက်လေ့လာနိုင်ပါသည်'`;
+    const finalReply = `${result}\n\n🔢 Life Index: ${index}
+    \n\n'ပိုမိုသိရှိလိုပါက ဤနေရာ https://t.me/AstroBySayarYe မှ ဝင်ရောက်လေ့လာနိုင်ပါသည်'
+    \n\n'System မှ ဝင်လာတတ်သော ကြော်ငြာများကိုလည်း မဝင်ရောက်မိရန်သတိထားပါ'
+    \n\n'အသုံးပြုမှုအတွက် ကျေးဇူးတင်ပါသည်🙏'
+    \n\n'ထပ်မံအသုံးပြုရန် /start ကိုနှိပ်ပါ'`;
     bot.sendMessage(chatId, finalReply, { reply_markup: { remove_keyboard: true } });
     users[chatId].step = 0;
   }
 });
 
 console.log("Bot is starting successfully...");
+
 
 
 
