@@ -56,6 +56,25 @@ function loveResult(index) {
 
 // ===== BOT LOGIC =====
 
+// --- Post Command ---
+bot.onText(/\/post (.+)/, (msg, match) => {
+  const chatId = msg.chat.id;
+  const broadcastText = match[1];
+
+  if (chatId === adminId) {
+    let successCount = 0;
+    allUserIds.forEach((userId) => {
+      bot.sendMessage(userId, broadcastText)
+        .then(() => { successCount++; })
+        .catch((err) => { console.log(`Error sending to ${userId}:`, err.message); });
+    });
+    bot.sendMessage(adminId, `📢 Broadcast ပို့ပြီးပါပြီ။\nအသုံးပြုသူ စုစုပေါင်း ${allUserIds.size} ယောက်ဆီ ပို့ဆောင်ပေးခဲ့ပါတယ်။`);
+  } else {
+    bot.sendMessage(chatId, "တောင်းပန်ပါတယ်၊ သင်သည် Admin မဟုတ်ပါ။");
+  }
+});
+
+// ---start Command ---
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
   allUserIds.add(chatId);
@@ -118,6 +137,7 @@ bot.on('message', (msg) => {
 });
 
 console.log("Bot is starting successfully...");
+
 
 
 
