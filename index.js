@@ -142,3 +142,14 @@ console.log("Bot is starting successfully...");
 
 
 
+
+// ၂၄ နာရီ နိုးနေစေရန် မိမိကိုယ်ကို ၅ မိနစ်တစ်ခါ ပြန်ခေါ်ခြင်း (Self-Ping)
+const URL = `https://my-astrology-bot.onrender.com`; 
+setInterval(() => {
+  http.get(URL, (res) => {
+    console.log('Bot is staying awake! Status:', res.statusCode);
+  }).on('error', (err) => {
+    console.log('Keep-alive ping failed:', err.message);
+  });
+}, 300000); // ၅ မိနစ်လျှင် တစ်ကြိမ်
+
